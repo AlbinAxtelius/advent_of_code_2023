@@ -30,7 +30,7 @@ defmodule AdventOfCode.Input do
   defp has_session_cookie?(), do: session_cookie() != nil
 
   defp download(day) do
-    case HTTPoison.get("https://adventofcode.com/2022/day/#{day}/input", headers()) do
+    case HTTPoison.get("https://adventofcode.com/2023/day/#{day}/input", headers()) do
       {:ok, %{status_code: 200} = response} -> save_to_cache(day, response.body)
       {:error, reason} -> {:error, reason}
     end
