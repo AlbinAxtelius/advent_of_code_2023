@@ -32,7 +32,7 @@ defmodule AdventOfCode.Solutions.Day1.Part2 do
       @parse_map
       |> Enum.find(fn {word, _} -> String.starts_with?(row, word) end)
 
-    new_row = String.slice(row, 1, String.length(row) - 1)
+    new_row = String.slice(row, 1..-1)
 
     case matched_tuple do
       nil ->
