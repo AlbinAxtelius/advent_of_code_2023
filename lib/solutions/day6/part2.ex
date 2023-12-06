@@ -12,20 +12,19 @@ defmodule AdventOfCode.Solutions.Day6.Part2 do
   def get_distance(max_time, time_held), do: time_held * (max_time - time_held)
 
   def solve(input) do
-    input
-    |> String.split("\n")
-    |> Enum.map(fn row ->
-      row
-      |> String.split(~r/\s+/)
-      |> Enum.drop(1)
-      |> Enum.join("")
-      |> String.to_integer()
-    end)
-    |> (fn [a, b] -> {a, b} end).()
-    |> (fn {max_time, distance} ->
-          index = Enum.find_index(0..max_time, fn x -> get_distance(max_time, x) > distance end)
-          max_time - index * 2 + 1
-        end).()
+    [max_time, distance] =
+      input
+      |> String.split("\n")
+      |> Enum.map(fn row ->
+        row
+        |> String.split(~r/\s+/)
+        |> Enum.drop(1)
+        |> Enum.join("")
+        |> String.to_integer()
+      end)
+
+    index = Enum.find_index(0..max_time, fn x -> get_distance(max_time, x) > distance end)
+    max_time - index * 2 + 1
   end
 
   def test(), do: solve(@test_data)
