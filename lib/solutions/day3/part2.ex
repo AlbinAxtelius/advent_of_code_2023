@@ -26,7 +26,7 @@ defmodule AdventOfCode.Solutions.Day3.Part2 do
     Enum.find(numbers, fn %{y: row, x: x_range} -> row == y and x in x_range end)
   end
 
-  @spec find_adjacent([number_schematic()], {integer(), integer()}) :: integer()
+  @spec find_adjacent([number_schematic()], {integer(), integer(), char()}) :: integer()
   def find_adjacent(numbers, {x, y, icon}) do
     found_numbers =
       [
@@ -44,11 +44,9 @@ defmodule AdventOfCode.Solutions.Day3.Part2 do
       |> Enum.uniq_by(fn %{id: id} -> id end)
       |> Enum.map(fn %{value: value} -> value end)
 
-    if length(found_numbers) == 2 and icon == "*" do
-      Enum.product(found_numbers)
-    else
-      0
-    end
+    if length(found_numbers) == 2 and icon == "*",
+      do: Enum.product(found_numbers),
+      else: 0
   end
 
   @spec parse_numbers(String.t()) :: [number_schematic()]
