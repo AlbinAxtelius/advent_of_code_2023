@@ -15,22 +15,17 @@ defmodule AdventOfCode.Solutions.Day6.Part2 do
     input
     |> String.split("\n")
     |> Enum.map(fn row ->
-      number =
-        row
-        |> String.split(~r/\s+/)
-        |> Enum.drop(1)
-        |> Enum.join("")
-        |> String.to_integer()
-
-      [number]
+      row
+      |> String.split(~r/\s+/)
+      |> Enum.drop(1)
+      |> Enum.join("")
+      |> String.to_integer()
     end)
-    |> Enum.zip()
-    |> Enum.map(fn {max_time, distance} ->
-      Enum.map(0..max_time, &get_distance(max_time, &1))
-      |> Enum.filter(&(&1 > distance))
-      |> length()
-    end)
-    |> Enum.product()
+    |> (fn [a, b] -> {a, b} end).()
+    |> (fn {max_time, distance} ->
+          index = Enum.find_index(0..max_time, fn x -> get_distance(max_time, x) > distance end)
+          max_time - index * 2 + 1
+        end).()
   end
 
   def test(), do: solve(@test_data)
