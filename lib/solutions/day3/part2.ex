@@ -1,4 +1,4 @@
-defmodule AdventOfCode.Solutions.Day3.Part1 do
+defmodule AdventOfCode.Solutions.Day3.Part2 do
   @moduledoc false
 
   @type number_schematic() :: %{
@@ -27,22 +27,28 @@ defmodule AdventOfCode.Solutions.Day3.Part1 do
   end
 
   @spec find_adjacent([number_schematic()], {integer(), integer()}) :: integer()
-  def find_adjacent(numbers, {x, y}) do
-    [
-      {x - 1, y - 1},
-      {x, y - 1},
-      {x + 1, y - 1},
-      {x - 1, y},
-      {x + 1, y},
-      {x - 1, y + 1},
-      {x, y + 1},
-      {x + 1, y + 1}
-    ]
-    |> Enum.map(&get_number_at(numbers, &1))
-    |> Enum.filter(fn x -> is_nil(x) == false end)
-    |> Enum.uniq_by(fn %{id: id} -> id end)
-    |> Enum.map(fn %{value: value} -> value end)
-    |> Enum.sum()
+  def find_adjacent(numbers, {x, y, icon}) do
+    found_numbers =
+      [
+        {x - 1, y - 1},
+        {x, y - 1},
+        {x + 1, y - 1},
+        {x - 1, y},
+        {x + 1, y},
+        {x - 1, y + 1},
+        {x, y + 1},
+        {x + 1, y + 1}
+      ]
+      |> Enum.map(&get_number_at(numbers, &1))
+      |> Enum.filter(fn x -> is_nil(x) == false end)
+      |> Enum.uniq_by(fn %{id: id} -> id end)
+      |> Enum.map(fn %{value: value} -> value end)
+
+    if length(found_numbers) == 2 and icon == "*" do
+      Enum.product(found_numbers)
+    else
+      0
+    end
   end
 
   @spec parse_numbers(String.t()) :: [number_schematic()]
@@ -79,7 +85,8 @@ defmodule AdventOfCode.Solutions.Day3.Part1 do
       |> Enum.map(fn {start, _} ->
         {
           start,
-          row_index
+          row_index,
+          String.at(row, start)
         }
       end)
     end)
