@@ -44,7 +44,7 @@ defmodule AdventOfCode.Solutions.Day7.Part2 do
 
     num_of_jokers = Map.get(occurrences, "J", 0)
 
-    s =
+    aggregated_occurrences =
       occurrences
       |> Map.drop(["J"])
       |> Map.values()
@@ -57,7 +57,7 @@ defmodule AdventOfCode.Solutions.Day7.Part2 do
         {value, _} -> value
       end)
 
-    case s do
+    case aggregated_occurrences do
       [] -> :five_of_a_kind
       [5] -> :five_of_a_kind
       [4 | _] -> :four_of_a_kind
